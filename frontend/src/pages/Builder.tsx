@@ -8,6 +8,8 @@ import type { WebContainer } from '@webcontainer/api';
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
+import { parseXml } from '@/steps';
+import { downloadProjectAsZip } from '@/utils/fileDownloader';
 
 
 
@@ -226,7 +228,7 @@ export function Builder() {
         // Set the initial steps from template
         const initialSteps = parseXml(uiPrompts[0] || '').map((x: any) => ({
           ...x,
-          status: 'pending' as StepStatus,
+          status: 'pending' as 'pending' | 'completed',
         }));
 
         setSteps(initialSteps);
@@ -243,7 +245,7 @@ export function Builder() {
         // Process the steps from the chat response
         const newSteps = parseXml(chatResponse.data.response).map((x: any) => ({
           ...x,
-          status: 'pending' as StepStatus,
+          status:'pending' as 'pending' | 'completed',
         }));
 
         setSteps((prevSteps) => [...prevSteps, ...newSteps]);
@@ -305,7 +307,7 @@ export function Builder() {
       // Check if the response contains steps in XML format
       const newSteps = parseXml(response.data.response).map((x: any) => ({
         ...x,
-        status: 'pending' as StepStatus,
+        status: 'pending' as 'pending' | 'completed',,
       }));
 
       if (newSteps.length > 0) {
