@@ -1,7 +1,4 @@
 
-
-
-
 /**
  * Creates a ZIP file from an array of FileItem objects and initiates download
  */
