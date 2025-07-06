@@ -1,30 +1,32 @@
-require("dotenv").config();
+import express from 'express';
+import cors from 'cors';
+import templateRoutes from './routes/template';
+import chatRoute from './routes/chat';
+import { config } from './config';
+import dotenv from 'dotenv';
 
-// console.log(process.env.OPENAI_API_KEY);
-
-// import OpenAI from "openai";
-// const client = new OpenAI();
-
-// async function main(){
-//     const response = await client.responses.create({
-//     model: "gpt-4.1",
-//     input: "Write a one-sentence bedtime story about a unicorn.",
-// // });
-// console.log("response ",response.output_text);
-// }
-
-// main()
-
-const express = require("express");
-const cors = require("cors");
-const {config} = require('./config/index');
+dotenv.config();
 
 const app = express();
 
+// Correct CORS setup
+app.use(cors({
+  origin: 'http://localhost:3000', // Frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
-app.use(cors());
+// For handling preflight requests
+app.options('*', cors());
+
 app.use(express.json());
 
+// Routes
+app.use('/template', templateRoutes);
+app.use('/chat', chatRoute);
+
+// Start server
 app.listen(config.port, () => {
-  console.log(`Gemini server running on http://localhost:${config.port}`);
+  console.log(`Server running on http://localhost:${config.port}`);
 });
