@@ -10,8 +10,16 @@ import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { parseXml } from '@/steps';
 import { downloadProjectAsZip } from '@/utils/fileDownloader';
+import { AlertTriangle, Download, HomeIcon, PanelRight, RefreshCw, Send } from 'lucide-react';
+import { Home } from './Home';
 
-
+import { motion } from 'framer-motion';
+import { StepsList } from '@/components/StepList';
+import { Loader } from '@/components/Loader';
+import { FileExplorer } from '@/components/FileExplorer';
+import { TabView } from '@/components/tabView';
+import { CodeEditor } from '@/components/CodeEditor';
+import { PreviewFrame } from '@/components/PreviewFrame';
 
 export function Builder() {
   const navigate = useNavigate();
@@ -307,7 +315,7 @@ export function Builder() {
       // Check if the response contains steps in XML format
       const newSteps = parseXml(response.data.response).map((x: any) => ({
         ...x,
-        status: 'pending' as 'pending' | 'completed',,
+        status: 'pending' as 'pending' | 'completed',
       }));
 
       if (newSteps.length > 0) {
@@ -367,7 +375,7 @@ export function Builder() {
             href="/"
             className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
           >
-            <Home className="w-5 h-5" />
+            <HomeIcon className ="w-5 h-5" />
             <span className="hidden sm:inline">Home</span>
           </a>
         </div>
