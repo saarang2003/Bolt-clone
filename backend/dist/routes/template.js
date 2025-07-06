@@ -14,8 +14,8 @@ const apiCall_1 = require("../AI/apiCall");
 const node_1 = require("../default/node");
 const react_1 = require("../default/react");
 const prompts_1 = require("../prompts");
-// Detect if project is node or react
 const router = (0, express_1.Router)();
+// Detect if project is node or react
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prompt = req.body.prompt;
     const messages = [

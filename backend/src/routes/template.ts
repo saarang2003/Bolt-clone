@@ -5,9 +5,10 @@ import { basePrompt as nodeBasePrompt } from '../default/node';
 import { basePrompt as reactBasePrompt } from '../default/react';
 import { BASE_PROMPT } from "../prompts";
 
-// Detect if project is node or react
+
 const router = Router();
 
+// Detect if project is node or react
 router.post('/', async (req, res) => {
   const prompt = req.body.prompt as string;
 

@@ -14,14 +14,13 @@ const prompts_1 = require("../prompts");
 const apiCall_1 = require("../AI/apiCall");
 const router = (0, express_1.Router)();
 // Chat endpoint
-router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userMessages = req.body.messages;
     try {
         const messages = [
             {
-                role: "user",
-                content: `${(0, prompts_1.getSystemPrompt)()}\n\n` +
-                    userMessages.map((m) => m.content).join("\n"),
+                role: 'user',
+                content: `${(0, prompts_1.getSystemPrompt)()}\n\n` + userMessages.map((m) => m.content).join('\n'),
             },
         ];
         const output = yield (0, apiCall_1.callGemini)(messages, 8000);
@@ -31,9 +30,7 @@ router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(response);
     }
     catch (error) {
-        const errorResponse = {
-            error: "Failed to process chat request",
-        };
+        const errorResponse = { error: 'Failed to process chat request' };
         res.status(500).json(errorResponse);
     }
 }));
