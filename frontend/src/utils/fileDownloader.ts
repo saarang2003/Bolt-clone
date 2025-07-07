@@ -3,7 +3,7 @@
  * Creates a ZIP file from an array of FileItem objects and initiates download
  */
 
-import type { FileItem } from "@/types";
+import type { FileItem } from "../types/index";
 import JSZip from 'jszip';
 import {saveAs} from 'file-saver';
 

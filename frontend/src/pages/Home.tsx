@@ -1,11 +1,12 @@
-import { BackgroundElements } from "@/components/BackgroundElements";
-import { FeaturesSection } from "@/components/FeatureSection";
-import { Footer } from "@/components/Footer";
-import { HeroSection } from "@/components/heroSection";
-import { Navbar } from "@/components/Navbar";
-import HowitWork from "@/components/Works";
-import { useAppContext } from "@/context/AppContext";
+
+import { Navbar } from "../components/Navbar";
+import { BackgroundElements } from "../components/BackgroundElements";
+import { useAppContext } from "../context/AppContext";
 import { useEffect, useState } from "react";
+import { HeroSection } from "../components/heroSection";
+import { FeaturesSection } from "../components/FeatureSection";
+import HowitWork from "../components/Works";
+import { Footer } from "../components/Footer";
 
 
 export function Home() {
