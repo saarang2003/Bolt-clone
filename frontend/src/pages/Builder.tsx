@@ -11,15 +11,13 @@ import axios from 'axios';
 import { parseXml } from '@/steps';
 import { downloadProjectAsZip } from '@/utils/fileDownloader';
 import { AlertTriangle, Download, HomeIcon, PanelRight, RefreshCw, Send } from 'lucide-react';
-import { Home } from './Home';
-
 import { motion } from 'framer-motion';
 import { StepsList } from '@/components/StepList';
 import { Loader } from '@/components/Loader';
 import { FileExplorer } from '@/components/FileExplorer';
-import { TabView } from '@/components/tabView';
 import { CodeEditor } from '@/components/CodeEditor';
 import { PreviewFrame } from '@/components/PreviewFrame';
+import { TabView } from '@/components/TabView';
 
 export function Builder() {
   const navigate = useNavigate();
