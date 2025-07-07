@@ -1,11 +1,12 @@
+require('dotenv').config();
 import express from 'express';
 import cors from 'cors';
 import templateRoutes from './routes/template';
 import chatRoute from './routes/chat';
+import { config } from './config';
 
-import dotenv from 'dotenv';
 
-dotenv.config();
+
 
 const app = express();
 
@@ -30,6 +31,6 @@ app.use('/template', templateRoutes);
 app.use('/chat', chatRoute);
 
 // Start server
-app.listen(3000, () => {
-  console.log(`Server running on http://localhost:3000`);
+app.listen(config.port, () => {
+  console.log(`Gemini server running on http://localhost:${config.port}`);
 });

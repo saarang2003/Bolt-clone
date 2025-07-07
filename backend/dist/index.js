@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require('dotenv').config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const template_1 = __importDefault(require("./routes/template"));
 const chat_1 = __importDefault(require("./routes/chat"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+const config_1 = require("./config");
 const app = (0, express_1.default)();
 // Correct CORS setup
 app.use((0, cors_1.default)({
@@ -17,11 +17,15 @@ app.use((0, cors_1.default)({
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
 app.use(express_1.default.json());
 // Routes
 app.use('/template', template_1.default);
 app.use('/chat', chat_1.default);
 // Start server
-app.listen(3000, () => {
-    console.log(`Server running on http://localhost:3000`);
+app.listen(config_1.config.port, () => {
+    console.log(`Gemini server running on http://localhost:${config_1.config.port}`);
 });

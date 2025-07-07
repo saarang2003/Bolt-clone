@@ -8,19 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.callGemini = callGemini;
 const generative_ai_1 = require("@google/generative-ai");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-console.log("gemini", process.env.GEMINI_API_KEY);
-const genAI = new generative_ai_1.GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const config_1 = require("../config");
+console.log("gemini key", config_1.config.geminiApiKey);
+console.log("gemini key", config_1.config.geminiModel);
+const genAI = new generative_ai_1.GoogleGenerativeAI(config_1.config.geminiApiKey);
 function callGemini(messages, maxTokens) {
     return __awaiter(this, void 0, void 0, function* () {
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+        const model = genAI.getGenerativeModel({ model: config_1.config.geminiModel });
         const chat = model.startChat({
             history: messages.slice(0, -1).map((msg) => ({
                 role: msg.role,
