@@ -1,23 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { API_URL } from '@/config';
-import { useAppContext } from '@/context/AppContext';
-import { useWebContainer } from '@/hooks/useWebcontainers';
-import { StepType, type FileItem, type Step } from '@/types';
-import type { WebContainer } from '@webcontainer/api';
-import { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom'
+
+import { useEffect, useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
+import { useWebContainer } from "../hooks/useWebcontainers";
+import { StepType, type FileItem, type Step } from "../types";
+import type { WebContainer } from "@webcontainer/api";
+import { API_URL } from "../config";
 import axios from 'axios';
-import { parseXml } from '@/steps';
-import { downloadProjectAsZip } from '@/utils/fileDownloader';
-import { AlertTriangle, Download, HomeIcon, PanelRight, RefreshCw, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { StepsList } from '@/components/StepList';
-import { Loader } from '@/components/Loader';
-import { FileExplorer } from '@/components/FileExplorer';
-import { CodeEditor } from '@/components/CodeEditor';
-import { PreviewFrame } from '@/components/PreviewFrame';
-import { TabView } from '@/components/TabView';
+import { parseXml } from "@/steps";
+import { downloadProjectAsZip } from "@/utils/fileDownloader";
+import { AlertTriangle, Download, HomeIcon, PanelRight, RefreshCw, Send } from "lucide-react";
+import { StepsList } from "@/components/StepList";
+import { Loader } from "@/components/Loader";
+import { FileExplorer } from "@/components/FileExplorer";
+import { TabView } from "@/components/TabView";
+import { CodeEditor } from "@/components/CodeEditor";
+import { PreviewFrame } from "@/components/PreviewFrame";
+
 
 export function Builder() {
   const navigate = useNavigate();
