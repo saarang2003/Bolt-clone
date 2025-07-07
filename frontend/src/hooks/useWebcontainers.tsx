@@ -14,6 +14,12 @@ export function useWebContainer(): UseWebContainerResult {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+  console.log('Cross-Origin Isolated:', window.crossOriginIsolated);
+  console.log('SharedArrayBuffer available:', typeof SharedArrayBuffer !== 'undefined');
+  // ... rest of the code
+}, []);
+
+  useEffect(() => {
     async function bootWebContainer() {
       try {
         setLoading(true);

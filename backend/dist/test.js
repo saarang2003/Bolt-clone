@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const generative_ai_1 = require("@google/generative-ai");
 dotenv_1.default.config();
-const genAI = new generative_ai_1.GoogleGenerativeAI('AIzaSyCdd8PTuoD1doA-lzj6YVDLHdGBrD7rv5I');
+const genAI = new generative_ai_1.GoogleGenerativeAI('api-key');
 function runTest() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

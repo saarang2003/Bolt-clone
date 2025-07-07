@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_URL } from "@/config";
 
-
-
-
 export async function getProjectTemplate(prompt :string){
 
     try {

@@ -12,7 +12,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 // Correct CORS setup
 app.use((0, cors_1.default)({
-    origin: 'http://localhost:5173', // Frontend origin
+    origin: 'http://localhost:3000', // Frontend origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

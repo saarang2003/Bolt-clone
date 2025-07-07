@@ -28,7 +28,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
       installProcess.output.pipeTo(
         new WritableStream({
           write(data) {
-            // console.log(`[npm install]: ${data}`);
+            console.log(`[npm install]: ${data}`);
           },
         })
       );
@@ -49,7 +49,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
         devProcess.output.pipeTo(
           new WritableStream({
             write(data) {
-              // console.log(`[npm run dev]: ${data}`);
+              console.log(`[npm run dev]: ${data}`);
             },
           })
         );
@@ -62,7 +62,7 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
 
       // Listen for server-ready event
       webContainer.on('server-ready', (port, serverUrl) => {
-        // console.log(`Server ready at ${serverUrl} (port ${port})`);
+        console.log(`Server ready at ${serverUrl} (port ${port})`);
         setUrl(serverUrl);
         setLoading(false);
       });

@@ -2,7 +2,7 @@ import { BackgroundElements } from "@/components/BackgroundElements";
 import { FeaturesSection } from "@/components/FeatureSection";
 import { Footer } from "@/components/Footer";
 import { HeroSection } from "@/components/heroSection";
-import { Navbar } from "@/components/NavBar";
+import { Navbar } from "@/components/Navbar";
 import HowitWork from "@/components/Works";
 import { useAppContext } from "@/context/AppContext";
 import { useEffect, useState } from "react";
