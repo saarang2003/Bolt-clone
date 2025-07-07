@@ -1,6 +1,6 @@
 import { CheckCircle, Circle, Clock, FileEdit, FolderPlus, Terminal } from 'lucide-react';
 import  { type Step,  StepType } from '../types';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 
 
 interface StepsListProps {

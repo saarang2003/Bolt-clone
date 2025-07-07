@@ -1,5 +1,5 @@
 
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FolderTree, File, ChevronRight, ChevronDown, FileCode, FileJson, FileText } from 'lucide-react';
 import type { FileItem } from '../types';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 
 
 interface FileExplorerProps {

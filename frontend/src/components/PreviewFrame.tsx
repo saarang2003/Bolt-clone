@@ -3,7 +3,7 @@
 import { WebContainer } from '@webcontainer/api';
 import { useEffect, useState } from 'react';
 import { RefreshCw, AlertOctagon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 
 interface PreviewFrameProps {
   files: any[];

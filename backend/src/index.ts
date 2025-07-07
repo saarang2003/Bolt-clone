@@ -11,12 +11,7 @@ import { config } from './config';
 const app = express();
 
 // Correct CORS setup
-app.use(cors({
-  origin: 'http://localhost:3000', // Frontend origin
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');

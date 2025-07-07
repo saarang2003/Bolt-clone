@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '../lib/utils';
 import { Code2, Eye } from 'lucide-react';
 
 
