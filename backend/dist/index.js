@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const template_1 = __importDefault(require("./routes/template"));
 const chat_1 = __importDefault(require("./routes/chat"));
-const config_1 = require("./config");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -23,6 +22,6 @@ app.use(express_1.default.json());
 app.use('/template', template_1.default);
 app.use('/chat', chat_1.default);
 // Start server
-app.listen(config_1.config.port, () => {
-    console.log(`Server running on http://localhost:${config_1.config.port}`);
+app.listen(3000, () => {
+    console.log(`Server running on http://localhost:3000`);
 });

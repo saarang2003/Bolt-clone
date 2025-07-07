@@ -1,6 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { AIMessage } from "../types";
-import { config } from "../config/index";
 
 import dotenv from 'dotenv'
 

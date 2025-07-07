@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
 import { WebContainer } from "@webcontainer/api";
+import { useEffect, useState } from "react";
+
 
 interface UseWebContainerResult {
   webcontainer: WebContainer | undefined;
@@ -18,18 +19,17 @@ export function useWebContainer(): UseWebContainerResult {
         setLoading(true);
         setError(null);
 
-        if (typeof window !== "undefined" && !window.crossOriginIsolated) {
-          console.warn(
-            "Cross-origin isolation is not enabled. WebContainer might not work correctly."
-          );
+        // Check if the browser supports SharedArrayBuffer and is cross-origin isolated
+        if (typeof window !== 'undefined' && !window.crossOriginIsolated) {
+          console.warn('Cross-origin isolation is not enabled. WebContainer might not work correctly.');
         }
 
         const webcontainerInstance = await WebContainer.boot();
         setWebcontainer(webcontainerInstance);
         setLoading(false);
-      } catch (error) {
-        console.error("Failed to boot WebContainer:", error);
-        setError(error instanceof Error ? error : new Error(String(error)));
+      } catch (err) {
+        console.error('Failed to boot WebContainer:', err);
+        setError(err instanceof Error ? err : new Error(String(err)));
         setLoading(false);
       }
     }
