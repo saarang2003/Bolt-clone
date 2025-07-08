@@ -16,7 +16,6 @@ export function useWebContainer(): UseWebContainerResult {
   useEffect(() => {
   console.log('Cross-Origin Isolated:', window.crossOriginIsolated);
   console.log('SharedArrayBuffer available:', typeof SharedArrayBuffer !== 'undefined');
-  // ... rest of the code
 }, []);
 
   useEffect(() => {

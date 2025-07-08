@@ -6,8 +6,6 @@ import chatRoute from './routes/chat';
 import { config } from './config';
 
 
-
-
 const app = express();
 
 // Correct CORS setup
