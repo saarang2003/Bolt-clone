@@ -100,14 +100,14 @@ export function CodeEditor({ file, onUpdateFile }: CodeEditorProps) {
             quickSuggestions: false,
             parameterHints: { enabled: false }
           }}
-          onMount={(editor, monaco) => {
+          onMount={(_editor, monaco) => {
             // Disable validation for TypeScript/JavaScript
-            if (monaco.languages.typescript) {
+            if (monaco?.languages?.typescript) {
               monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
                 noSemanticValidation: true,
                 noSyntaxValidation: true
               });
-              
+
               monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
                 noSemanticValidation: true,
                 noSyntaxValidation: true

@@ -3,7 +3,6 @@
 
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import { useNavigate } from "react-router-dom";
 import { useWebContainer } from "../hooks/useWebcontainers";
 import { StepType, type FileItem, type Step } from "../types";
 import type { WebContainer } from "@webcontainer/api";
@@ -22,10 +21,8 @@ import { PreviewFrame } from "@/components/PreviewFrame";
 
 
 export function Builder() {
-  const navigate = useNavigate();
   const {
     prompt,
-    setLoading: setContextLoading,
     currentStep,
     setCurrentStep,
   } = useAppContext();

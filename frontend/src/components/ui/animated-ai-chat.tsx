@@ -88,7 +88,7 @@ function useAutoResizeTextarea({
 
 export function VercelV0Chat({ prompt, setPrompt }: HeroSectionProps) {
     const [value, setValue] = useState("");
-    const { textareaRef, adjustHeight } = useAutoResizeTextarea({
+    const { adjustHeight } = useAutoResizeTextarea({
         minHeight: 60,
         maxHeight: 200,
     });
