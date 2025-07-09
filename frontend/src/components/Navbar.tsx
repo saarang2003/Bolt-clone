@@ -31,10 +31,10 @@ export function Navbar({ scrollY }: NavbarProps) {
               <img
                 src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTMgMkwzIDEzTDEyIDEzTDExIDIyTDIxIDExTDEyIDExTDEzIDJaIiBzdHJva2U9IiM2MEE1RkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg=="
                 alt="Bolt Logo"
-                className="w-6 h-6 relative z-10"
+                className="w-6 h-6  shadow-2xl relative z-10"
               />
             </div>
-            <span className="text-2xl font-bold text-white">Bolt</span>
+            <span className="text-3xl font-regular  text-white">Bolt</span>
           </div>
         </div>
         <div className="flex items-center space-x-6">
