@@ -205,7 +205,7 @@ export function VercelV0Chat({ prompt, setPrompt }: HeroSectionProps) {
 
 
 
-                <div className="flex items-center justify-center gap-3 mt-4">
+                <div className="flex items-center justify-center gap-2 mt-4">
                     <ActionButton
                         icon={<ImageIcon className="w-4 h-4" />}
                         label="Clone a Screenshot"
