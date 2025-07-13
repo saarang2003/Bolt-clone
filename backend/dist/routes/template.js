@@ -51,7 +51,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         else if (answer === 'html') {
             const response = {
                 prompts: [
-                    prompts_1.BASE_PROMPT,
+                    prompts_1.BASE_PROMPT_HTML,
                     `Here is a complete static website with HTML, CSS, and JavaScript. It’s a fully self-contained UI-only project:\n\n${html_1.basePrompt}`,
                 ],
                 uiPrompts: [html_1.basePrompt],

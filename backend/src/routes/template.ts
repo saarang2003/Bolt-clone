@@ -3,7 +3,7 @@ import { AIMessage, ErrorResponse, TemplateResponse } from "../types";
 import { callGemini } from "../AI/apiCall";
 import { basePrompt as nodeBasePrompt } from '../default/node';
 import { basePrompt as reactBasePrompt } from '../default/react';
-import { BASE_PROMPT } from "../prompts";
+import { BASE_PROMPT, BASE_PROMPT_HTML } from "../prompts";
 import { basePrompt as htmlBasePrompt} from "../default/html";
 
 
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
     } else if (answer === 'html') {
   const response: TemplateResponse = {
     prompts: [
-      BASE_PROMPT,
+      BASE_PROMPT_HTML,
       `Here is a complete static website with HTML, CSS, and JavaScript. It’s a fully self-contained UI-only project:\n\n${htmlBasePrompt}`,
     ],
     uiPrompts: [htmlBasePrompt],
