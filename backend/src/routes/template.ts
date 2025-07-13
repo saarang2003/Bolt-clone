@@ -4,6 +4,7 @@ import { callGemini } from "../AI/apiCall";
 import { basePrompt as nodeBasePrompt } from '../default/node';
 import { basePrompt as reactBasePrompt } from '../default/react';
 import { BASE_PROMPT } from "../prompts";
+import { basePrompt as htmlBasePrompt} from "../default/html";
 
 
 const router = Router();
@@ -16,12 +17,13 @@ router.post('/', async (req, res) => {
     {
       role: 'user',
       content:
-        "Return either node or react based on what do you think this project should be. Only return a single word either 'node' or 'react'. Do not return anything extra\n\n" + prompt,
+        "Return only one of these words: 'node', 'react', or 'html'based on what do you think this project should be. Do not return anything else. Only return a single word either 'node' or 'react' or 'html'. Do not return anything extra\n\n" + prompt,
     },
   ];
 
   try {
     const answer = (await callGemini(messages, 200)).trim().toLowerCase();
+    console.log("ai answer" , answer);
 
     if (answer === 'react') {
       const response: TemplateResponse = {
@@ -41,7 +43,16 @@ router.post('/', async (req, res) => {
         uiPrompts: [nodeBasePrompt],
       };
       res.json(response);
-    } else {
+    } else if (answer === 'html') {
+  const response: TemplateResponse = {
+    prompts: [
+      BASE_PROMPT,
+      `Here is a complete static website with HTML, CSS, and JavaScript. It’s a fully self-contained UI-only project:\n\n${htmlBasePrompt}`,
+    ],
+    uiPrompts: [htmlBasePrompt],
+  };
+  res.json(response);
+}else {
       const errorResponse: ErrorResponse = { error: "You can't access this" };
       res.status(403).json(errorResponse);
     }

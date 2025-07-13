@@ -14,6 +14,7 @@ const apiCall_1 = require("../AI/apiCall");
 const node_1 = require("../default/node");
 const react_1 = require("../default/react");
 const prompts_1 = require("../prompts");
+const html_1 = require("../default/html");
 const router = (0, express_1.Router)();
 // Detect if project is node or react
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -21,11 +22,12 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const messages = [
         {
             role: 'user',
-            content: "Return either node or react based on what do you think this project should be. Only return a single word either 'node' or 'react'. Do not return anything extra\n\n" + prompt,
+            content: "Return only one of these words: 'node', 'react', or 'html'based on what do you think this project should be. Do not return anything else. Only return a single word either 'node' or 'react' or 'html'. Do not return anything extra\n\n" + prompt,
         },
     ];
     try {
         const answer = (yield (0, apiCall_1.callGemini)(messages, 200)).trim().toLowerCase();
+        console.log("ai answer", answer);
         if (answer === 'react') {
             const response = {
                 prompts: [
@@ -43,6 +45,16 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     `Here is an artifact that contains all files of the project visible to you.\nConsider the contents of ALL files in the project.\n\n${node_1.basePrompt}\n\nHere is a list of files that exist on the file system but are not being shown to you:\n\n  - .gitignore\n  - package-lock.json\n`,
                 ],
                 uiPrompts: [node_1.basePrompt],
+            };
+            res.json(response);
+        }
+        else if (answer === 'html') {
+            const response = {
+                prompts: [
+                    prompts_1.BASE_PROMPT,
+                    `Here is a complete static website with HTML, CSS, and JavaScript. It’s a fully self-contained UI-only project:\n\n${html_1.basePrompt}`,
+                ],
+                uiPrompts: [html_1.basePrompt],
             };
             res.json(response);
         }
