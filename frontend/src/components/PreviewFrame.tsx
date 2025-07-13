@@ -6,7 +6,7 @@ import { RefreshCw, AlertOctagon } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 interface PreviewFrameProps {
-  files: any[];
+  files: any[]; // Expect: { path: string, content: string }[]
   webContainer: WebContainer;
 }
 
@@ -16,81 +16,111 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
   const [error, setError] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
 
-  async function startDevServer() {
+  function hasPackageJson(files: any[]): boolean {
+    return files.some(f => f.path === 'package.json');
+  }
+
+ async function mountFiles() {
+  const fileSystem: Record<string, any> = {};
+
+  files.forEach(({ path, content }) => {
+    const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
+    fileSystem[normalizedPath] = { file: { contents: content } };
+  });
+
+  await webContainer.mount(fileSystem);
+}
+
+
+  async function startDynamicPreview() {
     try {
-      setLoading(true);
-      setError(null);
-      
-      // Install dependencies
-      const installProcess = await webContainer.spawn('npm', ['install']);
-      
-      // Stream the install output to console
-      installProcess.output.pipeTo(
-        new WritableStream({
-          write(data) {
-            console.log(`[npm install]: ${data}`);
-          },
-        })
-      );
+      await mountFiles();
 
-      // Wait for install to complete
-      const installExitCode = await installProcess.exit;
-      
-      if (installExitCode !== 0) {
-        setError(`npm install failed with exit code ${installExitCode}`);
-        setLoading(false);
-        return;
-      }
-      
-      // Start the dev server
-      try {
-        const devProcess = await webContainer.spawn('npm', ['run', 'dev', '--', '--host']);
-        
-        devProcess.output.pipeTo(
-          new WritableStream({
-            write(data) {
-              console.log(`[npm run dev]: ${data}`);
-            },
-          })
-        );
-      } catch (err) {
-        console.error('Failed to start dev server:', err);
-        setError('Failed to start development server');
-        setLoading(false);
-        return;
-      }
+      const install = await webContainer.spawn('npm', ['install']);
+      install.output.pipeTo(new WritableStream({
+        write(data) {
+          console.log(`[npm install]: ${data}`);
+        }
+      }));
+      const code = await install.exit;
+      if (code !== 0) throw new Error('npm install failed');
 
-      // Listen for server-ready event
+      const dev = await webContainer.spawn('npm', ['run', 'dev', '--', '--host']);
+      dev.output.pipeTo(new WritableStream({
+        write(data) {
+          console.log(`[npm run dev]: ${data}`);
+        }
+      }));
+
       webContainer.on('server-ready', (port, serverUrl) => {
-        console.log(`Server ready at ${serverUrl} (port ${port})`);
         setUrl(serverUrl);
         setLoading(false);
       });
-    } catch (err) {
-      console.error('Preview initialization error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-      
-      if (errorMessage.includes('SharedArrayBuffer') || errorMessage.includes('crossOriginIsolated')) {
-        setError(
-          'This browser requires cross-origin isolation for the preview. Try restarting the dev server with "npm run dev" or try another browser.'
-        );
-      } else {
-        setError(`Failed to initialize preview environment: ${errorMessage}`);
+    } catch (err: any) {
+      setError(err.message || 'Failed to run dynamic preview');
+      setLoading(false);
+    }
+  }
+
+ async function startStaticPreview() {
+  try {
+    await mountFiles();
+
+    // Install serve explicitly to avoid interactive prompt
+    const install = await webContainer.spawn('npm', ['install', 'serve']);
+    install.output.pipeTo(new WritableStream({
+      write(data) {
+        console.log(`[npm install serve]: ${data}`);
       }
-      
+    }));
+    const code = await install.exit;
+    if (code !== 0) throw new Error('Failed to install serve');
+
+    // Start static server
+    const serve = await webContainer.spawn('npx', ['serve', '.', '--listen', '3000', '--no-clipboard']);
+    serve.output.pipeTo(new WritableStream({
+      write(data) {
+        console.log(`[serve]: ${data}`);
+      }
+    }));
+
+    webContainer.on('server-ready', (port, serverUrl) => {
+      console.log(`Static server ready at ${serverUrl}`);
+      setUrl(serverUrl);
+      setLoading(false);
+    });
+  } catch (err: any) {
+    console.error('Static preview error:', err);
+    setError(err.message || 'Failed to run static preview');
+    setLoading(false);
+  }
+}
+
+
+  async function startPreview() {
+    try {
+      setLoading(true);
+      setError(null);
+
+      if (hasPackageJson(files)) {
+        await startDynamicPreview();
+      } else {
+        await startStaticPreview();
+      }
+    } catch (err: any) {
+      console.error('Preview error:', err);
+      setError(err.message || 'Unknown error');
       setLoading(false);
     }
   }
 
   const handleRetry = () => {
-    setRetryCount(prev => prev + 1);
-    startDevServer();
+    setRetryCount(c => c + 1);
   };
 
   useEffect(() => {
     if (files.length > 0 && webContainer) {
-      // Start the server when files and webContainer are available
-      startDevServer();
+      startPreview();
     }
   }, [files, webContainer, retryCount]);
 
@@ -103,13 +133,13 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
           <p className="text-sm text-gray-500">This might take a moment</p>
         </div>
       )}
-      
+
       {error && (
         <div className="text-center p-6 bg-red-950/20 rounded-lg border border-red-900/50 max-w-md">
           <AlertOctagon className="h-10 w-10 text-red-500 mx-auto mb-4" />
           <h3 className="text-red-400 font-medium text-lg mb-2">Preview Error</h3>
           <p className="text-gray-300 mb-4">{error}</p>
-          <button 
+          <button
             onClick={handleRetry}
             className="inline-flex items-center gap-2 px-4 py-2 bg-red-900/30 hover:bg-red-900/50 text-gray-200 rounded-md transition-colors"
           >
@@ -118,13 +148,13 @@ export function PreviewFrame({ files, webContainer }: PreviewFrameProps) {
           </button>
         </div>
       )}
-      
+
       {url && !loading && !error && (
-        <iframe 
-          src={url} 
+        <iframe
+          src={url}
           className={cn(
-            "w-full h-full border-0 transition-opacity duration-300",
-            loading ? "opacity-0" : "opacity-100"
+            'w-full h-full border-0 transition-opacity duration-300',
+            loading ? 'opacity-0' : 'opacity-100'
           )}
           title="Site Preview"
           sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
